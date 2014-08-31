@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Pixiv Novels Downloader Online</title>
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js" charset="utf-8"></script>
+		<script src="https://cdn.rawgit.com/eligrey/FileSaver.js/879b3c228c63b62a620b1ace3316622481a01945/FileSaver.js" charset="utf-8"></script>
+		<script charset="utf-8">
+			$(document).ready(function () {
+				$('#submit').click(function () {
+					$.ajax({
+						url: './',
+						type: 'POST',
+						data: {
+							url: $('#url').val()
+						},
+						cache: false,
+						dataType: 'json'
+					}).done(function (data) {
+						saveAs(new Blob([data.compiled], {type: 'text/plain;charset=utf-8'}), data.title + '.txt');
+					});
+				});
+			});
+		</script>
+		<link rel="stylesheet"
+			href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+			media="screen" title="no title" charset="utf-8">
+	</head>
+	<body style="width: 100%; padding: 10px; background-color: #eef;">
+		<h1 class="text-center" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+			Pixiv Novels Downloader Online
+		</h1>
+		<input id="url" type="url" name="pixiv" value="" autocomplete="off" class="form-control"
+			placeholder="http://www.pixiv.net/novel/show.php?id=*******">
+		<button id="submit" type="button" name="submit" style="width: 240px;"
+			class="btn btn-primary btn-lg btn-block center-block">Go</button>
+	</body>
+</html>

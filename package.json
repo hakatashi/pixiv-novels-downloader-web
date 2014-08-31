@@ -6,7 +6,12 @@
   "dependencies": {
     "cheerio": "~0.17.0",
     "express": "4.8.7",
-    "request": "~2.40.0"
+    "request": "~2.40.0",
+    "ejs": "^1.0.0",
+    "morgan": "^1.2.3",
+    "body-parser": "^1.6.7",
+    "tough-cookie": "^0.12.1",
+    "entities": "^1.1.1"
   },
   "devDependencies": {},
   "scripts": {
