@@ -65,3 +65,6 @@ $RECYCLE.BIN/
 *.msp
 
 *~
+
+# Config file
+config.js
