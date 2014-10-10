@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var cheerio = require('cheerio');
 var entities = require('entities');
+var favicon = require('serve-favicon');
 
 var config = require('./config');
 
@@ -15,6 +16,7 @@ request = request.defaults({
 var app = express();
 
 app.use(morgan('combined'));
+app.use(favicon(__dirname + '/favicon.ico'));
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.engine('html', ejs.renderFile);
