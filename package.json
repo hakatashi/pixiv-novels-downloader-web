@@ -2,7 +2,7 @@
   "name": "pixiv-novels-downloader-web",
   "version": "0.0.0",
   "description": "Automatically download pixiv novels to 青空文庫-compatible text file with simple web interfaces.",
-  "main": "pixiv-novels-downloader-web.js",
+  "private": true,
   "dependencies": {
     "body-parser": "^1.6.7",
     "cheerio": "~0.17.0",
