@@ -1,8 +1,8 @@
 {
   "name": "pixiv-novels-downloader-web",
   "version": "0.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Automatically download pixiv novels to 青空文庫-compatible text file with simple web interfaces.",
+  "main": "pixiv-novels-downloader-web.js",
   "dependencies": {
     "body-parser": "^1.6.7",
     "cheerio": "~0.17.0",
@@ -23,7 +23,7 @@
     "url": "https://github.com/hakatashi/pixiv-novels-downloader-web.git"
   },
   "author": "hakatashi",
-  "license": "BSD",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hakatashi/pixiv-novels-downloader-web/issues"
   },
