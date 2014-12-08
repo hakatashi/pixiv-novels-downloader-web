@@ -76,6 +76,12 @@ app.post('/', function (req, res) {
 			});
 			var novel = $('#novel_text').text();
 
+			// preprocess novel text
+
+			novel = novel.replace(/《/g, '≪').replace(/》/g, '≫');
+			novel = novel.replace(/\[chapter:(.+?)\]/g, '［＃中見出し］$1［＃中見出し終わり］');
+			novel = novel.replace(/\[newpage\]/g, '［＃改ページ］');
+
 			var compiled =
 				title + '\n' +
 				author + '\n' +
