@@ -82,8 +82,9 @@ app.post('/', function (req, res) {
 			novel = novel.replace(/､/g, '、').replace(/｡/g, '。');
 			novel = novel.replace(/｢/g, '「').replace(/｣/g, '」');
 			novel = novel.replace(/!/g, '！').replace(/\?/g, '？');
-			novel = novel.replace(/([！？]+)([^」\n])/g, '$1　$2');
+			novel = novel.replace(/([！？]+)([^！？」\n])/g, '$1　$2');
 			novel = novel.replace(/([！？]{2,})/g, '［＃縦中横］$1［＃縦中横終わり］');
+			novel = novel.replace(/\[\[rb:(.+?)\s*>\s*(.+?)\]\]/g, '｜$1《$2》');
 			novel = novel.replace(/\[chapter:(.+?)\]/g, '［＃中見出し］$1［＃中見出し終わり］');
 			novel = novel.replace(/\[newpage\]/g, '［＃改ページ］');
 
