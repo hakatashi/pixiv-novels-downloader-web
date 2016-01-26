@@ -1,40 +1,40 @@
-var express = require('express');
-var morgan = require('morgan');
-var ejs = require('ejs');
-var bodyParser = require('body-parser');
-var request = require('request');
-var cheerio = require('cheerio');
-var entities = require('entities');
-var favicon = require('serve-favicon');
+const express = require('express');
+const morgan = require('morgan');
+const ejs = require('ejs');
+const bodyParser = require('body-parser');
+let request = require('request');
+const cheerio = require('cheerio');
+const entities = require('entities');
+const favicon = require('serve-favicon');
 
-var config = require('./config');
+const config = require('./config');
 
 request = request.defaults({
 	jar: true
 });
 
-var app = express();
+const app = express();
 
 app.use(morgan('combined'));
-app.use(favicon(__dirname + '/favicon.ico'));
+app.use(favicon(`${__dirname}/favicon.ico`));
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.engine('html', ejs.renderFile);
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
 	res.render('index.html');
 });
 
-app.post('/', function (req, res) {
-	var url = req.body.url;
+app.post('/', (req, res) => {
+	const url = req.body.url;
 
 	if (!url) {
 		res.status(500);
 		return;
 	}
 
-	var id;
-	var idMatch = url.match(/[\?&]id=([^&]+)&?/);
+	let id;
+	const idMatch = url.match(/[\?&]id=([^&]+)&?/);
 
 	if (idMatch) {
 		id = idMatch[1];
@@ -42,7 +42,7 @@ app.post('/', function (req, res) {
 		id = url;
 	}
 
-	var sessionJar = request.jar();
+	const sessionJar = request.jar();
 
 	request({
 		url: 'https://www.secure.pixiv.net/login.php',
@@ -53,28 +53,28 @@ app.post('/', function (req, res) {
 			pass: config.pass
 		},
 		jar: sessionJar
-	}, function (error, response, body) {
+	}, (error, response, body) => {
 		request({
-			url: 'http://www.pixiv.net/novel/show.php?id=' + id,
+			url: `http://www.pixiv.net/novel/show.php?id=${id}`,
 			method: 'GET',
 			jar: sessionJar
-		}, function (error, response, body) {
+		}, (error, response, body) => {
 			if (error || response.statusCode !== 200) {
 				res.status(500);
 				return;
 			}
 
-			var $ = cheerio.load(body);
+			const $ = cheerio.load(body);
 
-			var title = $('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > h1').text();
-			var author = $('#wrapper > div.layout-body > div > div.layout-column-1 > div > div._unit.profile-unit > a > h1').text();
-			var date = $('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > ul > li:nth-child(1)').text();
-			var caption = entities.decodeHTML($('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > p').html()).replace(/<br>/g, '\n');
-			var tags = [];
-			$('li.tag > .text').each(function () {
+			const title = $('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > h1').text();
+			const author = $('#wrapper > div.layout-body > div > div.layout-column-1 > div > div._unit.profile-unit > a > h1').text();
+			const date = $('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > ul > li:nth-child(1)').text();
+			const caption = entities.decodeHTML($('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > p').html()).replace(/<br>/g, '\n');
+			const tags = [];
+			$('li.tag > .text').each(() => {
 				tags.push($(this).text());
 			});
-			var novel = $('#novel_text').text();
+			let novel = $('#novel_text').text();
 
 			// preprocess novel text
 
@@ -89,14 +89,18 @@ app.post('/', function (req, res) {
 			novel = novel.replace(/\[chapter:(.+?)\]/g, '［＃中見出し］$1［＃中見出し終わり］');
 			novel = novel.replace(/\[newpage\]/g, '［＃改ページ］');
 
-			var compiled =
-				title + '\n' +
-				author + '\n' +
-				date + '\n\n' +
-				caption + '\n\n' +
-				tags.join('、') + '\n' +
-				'――――――――――\n\n' +
-				novel + '\n';
+			const compiled =
+				`${title}
+${author}
+${date}
+
+${caption}
+
+${tags.join('、')}
+――――――――――
+
+${novel}
+`;
 
 			res.send(JSON.stringify({
 				id: id,
@@ -110,6 +114,6 @@ app.post('/', function (req, res) {
 	});
 });
 
-var server = app.listen(config.port, function () {
+const server = app.listen(config.port, () => {
 	console.log('Listening on port %d', server.address().port);
 });
