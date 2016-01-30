@@ -2,14 +2,14 @@ const express = require('express');
 const morgan = require('morgan');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
-let request = require('request');
+const req = require('request');
 const cheerio = require('cheerio');
 const entities = require('entities');
 const favicon = require('serve-favicon');
 
 const config = require('./config');
 
-request = request.defaults({
+const request = req.defaults({
 	jar: true
 });
 
@@ -33,7 +33,7 @@ app.post('/', (req, res) => {
 		return;
 	}
 
-	let id;
+	var id;
 	const idMatch = url.match(/[\?&]id=([^&]+)&?/);
 
 	if (idMatch) {
@@ -71,10 +71,10 @@ app.post('/', (req, res) => {
 			const date = $('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > ul > li:nth-child(1)').text();
 			const caption = entities.decodeHTML($('#wrapper > div.layout-body > div > div.layout-column-2 > div > section.work-info > p').html()).replace(/<br>/g, '\n');
 			const tags = [];
-			$('li.tag > .text').each(() => {
-				tags.push($(this).text());
+			$('li.tag > .text').each((index, element) => {
+				tags.push($(element).text());
 			});
-			let novel = $('#novel_text').text();
+			var novel = $('#novel_text').text();
 
 			// preprocess novel text
 
@@ -89,18 +89,18 @@ app.post('/', (req, res) => {
 			novel = novel.replace(/\[chapter:(.+?)\]/g, '［＃中見出し］$1［＃中見出し終わり］');
 			novel = novel.replace(/\[newpage\]/g, '［＃改ページ］');
 
-			const compiled =
-				`${title}
-${author}
-${date}
+			const compiled = `
+				${title}
+				${author}
+				${date}
 
-${caption}
+				${caption}
 
-${tags.join('、')}
-――――――――――
+				${tags.join('、')}
+				――――――――――
 
-${novel}
-`;
+				${novel}
+			`.replace(/^\n/, '').replace(/^\t+/mg, '');
 
 			res.send(JSON.stringify({
 				id: id,
