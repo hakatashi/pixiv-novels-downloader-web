@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const morgan = require('morgan');
 const ejs = require('ejs');
@@ -33,11 +35,13 @@ app.post('/', (req, res) => {
 		return;
 	}
 
-	var id;
-	const idMatch = url.match(/[\?&]id=([^&]+)&?/);
+	let id;
+	let match;
 
-	if (idMatch) {
-		id = idMatch[1];
+	if (match = url.match(/[\?&]id=([^&]+)&?/)) {
+		id = match[1];
+	} else if (match = url.match(/novel\/(\d+)?/)) {
+		id = match[1];
 	} else {
 		id = url;
 	}
