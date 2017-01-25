@@ -1,6 +1,8 @@
 pixiv-novels-downloader-web
 ===========================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hakatashi/pixiv-novels-downloader-web.svg)](https://greenkeeper.io/)
+
 Automatically download pixiv novels to 青空文庫-compatible text file with simple web interfaces.
 
 # Install
