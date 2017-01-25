@@ -5,14 +5,14 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.6.7",
-    "cheerio": "~0.17.0",
-    "ejs": "^1.0.0",
+    "cheerio": "~0.22.0",
+    "ejs": "^2.5.5",
     "entities": "^1.1.1",
-    "express": "4.8.7",
+    "express": "4.14.0",
     "morgan": "^1.2.3",
-    "request": "~2.40.0",
+    "request": "~2.79.0",
     "serve-favicon": "^2.1.5",
-    "tough-cookie": "^0.12.1"
+    "tough-cookie": "^2.3.2"
   },
   "devDependencies": {},
   "scripts": {
